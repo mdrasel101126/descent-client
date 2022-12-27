@@ -1,8 +1,20 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useContext, useState } from "react";
+import { AuthContext } from "./UserContext/UserContext";
 
 const Header = () => {
-  const [user, setUser] = useState();
+  const { user, logOut } = useContext(AuthContext);
+  const router = useRouter();
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {
+        router.push("/login");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const items = (
     <>
       <li>

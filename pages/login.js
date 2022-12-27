@@ -51,7 +51,7 @@ const Login = () => {
   const saveUser = (name, email, role) => {
     const user = { name, email, role };
 
-    fetch("https://mobile-market-server-delta.vercel.app/users", {
+    fetch("http://localhost:5000/users", {
       method: "PUT",
       headers: {
         "content-type": "application/json",
@@ -134,7 +134,7 @@ const Login = () => {
           <label className="label">
             <p>
               <small>
-                Already Have an Account?{" "}
+                No Account?{" "}
                 <Link href="/register" className="label-text text-primary">
                   Please Register
                 </Link>
