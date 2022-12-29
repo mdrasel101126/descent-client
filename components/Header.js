@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 import { AuthContext } from "./UserContext/UserContext";
+import { FaCartArrowDown } from "react-icons/fa";
 
 const Header = () => {
   const { user, logOut } = useContext(AuthContext);
@@ -22,18 +23,21 @@ const Header = () => {
           Home
         </Link>
       </li>
+
       {
         <li>
-          <Link className="font-bold" href="/">
-            Dashboard
+          <Link className="font-bold" href="/admin/admin">
+            Admin
           </Link>
         </li>
       }
-      <li>
-        <Link className="font-bold" href="/">
-          Blog
-        </Link>
-      </li>
+      {
+        <li>
+          <Link className="font-bold text-xl" href="/">
+            <FaCartArrowDown></FaCartArrowDown>
+          </Link>
+        </li>
+      }
       <>
         {user?.uid ? (
           <>

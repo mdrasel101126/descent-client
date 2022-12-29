@@ -3,7 +3,7 @@ import Link from "next/link";
 const Footer = () => {
   const year = new Date().getFullYear();
   return (
-    <div className="bg-neutral text-neutral-content">
+    <div className="bg-primary text-white">
       <footer className="footer p-10 ">
         <div>
           <Link href="/">
@@ -60,7 +60,9 @@ const Footer = () => {
           </div>
         </div>
       </footer>
-      <p className="text-center">Copyright © {year} - All right reserved</p>
+      <p className="text-center pb-4">
+        Copyright © {year} - All right reserved
+      </p>
     </div>
   );
 };

@@ -27,10 +27,10 @@ export default function Home() {
               />
 
               <div className="absolute transform -translate-y-1/2 left-10 top-1/2">
-                <h1 className="text-4xl font-bold text-primary">
+                <h1 className="text-4xl font-bold text-accent">
                   Welcome to Descent
                 </h1>
-                <p className="text-primary mt-4 font-semibold">
+                <p className="text-accent mt-4 font-semibold">
                   We Providing Good Quality Shirt
                 </p>
                 <Link href="">
@@ -50,10 +50,10 @@ export default function Home() {
               />
 
               <div className="absolute transform -translate-y-1/2 left-10 top-1/2">
-                <h1 className="text-4xl font-bold text-primary">
+                <h1 className="text-4xl font-bold text-accent">
                   Welcome to Descent
                 </h1>
-                <p className="text-primary mt-4 font-semibold">
+                <p className="text-accent mt-4 font-semibold">
                   We Providing Good Quality T-Shirt
                 </p>
                 <Link href="">
@@ -73,10 +73,10 @@ export default function Home() {
               />
 
               <div className="absolute transform -translate-y-1/2 left-10 top-1/2">
-                <h1 className="text-4xl font-bold text-primary">
+                <h1 className="text-4xl font-bold text-accent">
                   Welcome to Descent
                 </h1>
-                <p className="text-primary mt-4 font-semibold">
+                <p className="text-accent mt-4 font-semibold">
                   We Providing Good Quality Pant
                 </p>
                 <Link href="">
