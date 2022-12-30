@@ -1,10 +1,28 @@
 import { async } from "@firebase/util";
+import { useRouter } from "next/router";
 import React, { useContext, useState } from "react";
+import { toast } from "react-hot-toast";
 import Layout from "../../../components/Layout";
 import { AuthContext } from "../../../components/UserContext/UserContext";
 
 const Allusers = ({ allUsers }) => {
   const { user } = useContext(AuthContext);
+  const router = useRouter();
+  const handleDeleteBuyer = (id) => {
+    const sureDelete = window.confirm("Please Confirm Delete Buyer");
+    if (sureDelete) {
+      fetch(`https://descent-server.vercel.app/users/${id}`, {
+        method: "DELETE",
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.deletedCount) {
+            toast.success("User Deleted Successfully");
+            router.reload();
+          }
+        });
+    }
+  };
   return (
     <Layout>
       <div className="my-20">
@@ -55,7 +73,7 @@ const Allusers = ({ allUsers }) => {
 export default Allusers;
 
 export const getServerSideProps = async () => {
-  const res = await fetch("http://localhost:5000/users");
+  const res = await fetch("https://descent-server.vercel.app/users");
   const data = await res.json();
 
   return {

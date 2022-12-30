@@ -46,7 +46,7 @@ const Register = () => {
   const saveUser = (name, email, role) => {
     const user = { name, email, role };
 
-    fetch("http://localhost:5000/users", {
+    fetch("https://descent-server.vercel.app/users", {
       method: "PUT",
       headers: {
         "content-type": "application/json",
