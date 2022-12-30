@@ -8,11 +8,13 @@ import Spinner from "../components/Spinner";
 import Link from "next/link";
 import Layout from "../components/Layout";
 import Head from "next/head";
+import { useRouter } from "next/router";
 const Login = () => {
   const { loginUser, googleSignUp } = useContext(AuthContext);
   const [loninError, setLoginError] = useState("");
   const [spinner, setSpinner] = useState(false);
   const [userEmail, setUserEmail] = useState("");
+  const router = useRouter();
 
   const {
     register,
@@ -28,6 +30,7 @@ const Login = () => {
         setUserEmail(data.email);
         setSpinner(false);
         toast.success("Login Successfull");
+        router.push("/");
         //console.log(result.user);
       })
       .catch((error) => {
@@ -64,6 +67,7 @@ const Login = () => {
         setUserEmail(email);
         setSpinner(false);
         toast.success("Login Successfull");
+        router.push("/");
       })
       .catch((err) => {
         setSpinner(false);

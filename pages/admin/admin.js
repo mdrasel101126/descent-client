@@ -56,7 +56,7 @@ const Dashboard = ({ children }) => {
                   </li>
                   <li className="mb-4">
                     <Link
-                      href="/admin/addproduct"
+                      href="/admin/admin-role/addproduct"
                       className="btn btn-primary bg-gradient-to-r from-primary to-secondary w-full text-white"
                     >
                       Add Products

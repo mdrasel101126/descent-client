@@ -24,20 +24,20 @@ const Header = () => {
         </Link>
       </li>
 
-      {
+      {user?.email === "elon@mask.com" && (
         <li>
           <Link className="font-bold" href="/admin/admin">
             Admin
           </Link>
         </li>
-      }
-      {
+      )}
+      {user?.uid && (
         <li>
           <Link className="font-bold text-xl" href="/">
             <FaCartArrowDown></FaCartArrowDown>
           </Link>
         </li>
-      }
+      )}
       <>
         {user?.uid ? (
           <>
