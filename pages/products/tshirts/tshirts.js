@@ -38,7 +38,7 @@ const Tshirts = () => {
                   <h2 className="card-title">{tshirt.productName}</h2>
                   <p>Price: {tshirt.price}</p>
                   <div className="text-center">
-                    <Link href="">
+                    <Link href={`/products/tshirts/${tshirt._id}`}>
                       <button className="btn btn-primary  bg-gradient-to-r from-primary to-secondary px-8 mt-6 text-white">
                         View Details
                       </button>
