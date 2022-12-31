@@ -1,13 +1,21 @@
 import { async } from "@firebase/util";
 import { useRouter } from "next/router";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import Layout from "../../../components/Layout";
 import { AuthContext } from "../../../components/UserContext/UserContext";
 
-const Allusers = ({ allUsers }) => {
+const Allusers = () => {
   const { user } = useContext(AuthContext);
   const router = useRouter();
+  const [allUsers, setAllusers] = useState(null);
+  useEffect(() => {
+    fetch("https://descent-server.vercel.app/users")
+      .then((res) => res.json())
+      .then((data) => {
+        setAllusers(data);
+      });
+  }, []);
   const handleDeleteBuyer = (id) => {
     const sureDelete = window.confirm("Please Confirm Delete Buyer");
     if (sureDelete) {
@@ -42,7 +50,7 @@ const Allusers = ({ allUsers }) => {
             </thead>
             <tbody>
               {allUsers &&
-                allUsers.map((buyer, index) => (
+                allUsers?.map((buyer, index) => (
                   <tr key={buyer._id}>
                     <th>{index + 1}</th>
                     <td>{buyer.name}</td>
@@ -72,7 +80,7 @@ const Allusers = ({ allUsers }) => {
 
 export default Allusers;
 
-export const getServerSideProps = async () => {
+/* export const getServerSideProps = async () => {
   const res = await fetch("https://descent-server.vercel.app/users");
   const data = await res.json();
 
@@ -81,4 +89,4 @@ export const getServerSideProps = async () => {
       allUsers: data,
     },
   };
-};
+}; */
