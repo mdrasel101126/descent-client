@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import Layout from "../../../components/Layout";
+import ServiceReviews from "../../../components/ServiceReviews";
 import Spinner from "../../../components/Spinner";
 import { AuthContext } from "../../../components/UserContext/UserContext";
 
@@ -13,6 +14,8 @@ const detailsId = () => {
   const [spinner, setSpinner] = useState(false);
   const { user } = useContext(AuthContext);
   const [product, setProduct] = useState(null);
+  const [reviews, setReviews] = useState([]);
+  const [toogleReview, setToogleReview] = useState(false);
   useEffect(() => {
     if (id) {
       fetch(`http://localhost:5000/products/details/${id}`)
@@ -78,6 +81,55 @@ const detailsId = () => {
         console.log(err);
       });
   };
+  const handleReviewSubmit = (event) => {
+    event.preventDefault();
+    if (!user) {
+      toast.error("Sorry!To Reveiw , Create an Account");
+      setSelectedProduct(null);
+      return;
+    }
+    const form = event.target;
+    const comment = form.review.value;
+    //console.log(comment);
+    const serviceReview = {
+      comment: comment,
+      name: user?.displayName,
+      email: user?.email,
+      photoURL: user?.photoURL,
+      product_id: product?._id,
+      product_name: product?.productName,
+      comment_date: new Date(),
+    };
+    //console.log(serviceReview);
+    fetch("http://localhost:5000/reviews", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(serviceReview),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        //console.log(data);
+        form.reset();
+
+        setToogleReview(!toogleReview);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  useEffect(() => {
+    fetch(`http://localhost:5000/reviews?id=${product?._id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setReviews(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [product?._id, toogleReview]);
   return (
     <Layout>
       <div className="my-16">
@@ -104,7 +156,7 @@ const detailsId = () => {
               <label
                 onClick={() => setSelectedProduct(product)}
                 htmlFor="product-modal"
-                className="btn btn-primary  bg-gradient-to-r from-primary to-secondary"
+                className="btn btn-primary  bg-gradient-to-r from-primary to-secondary text-white"
               >
                 Book Now
               </label>
@@ -193,6 +245,35 @@ const detailsId = () => {
           </div>
         </>
       )}
+
+      <div className="w-3/4 sm:w-3/5 md:w-2/5 lg:w-1/5  my-8 mx-2">
+        <h3 className="text-xl font-semibold">All Reviews</h3>
+        <form
+          onSubmit={handleReviewSubmit}
+          className="text-center flex flex-row items-center gap-3 mt-3"
+        >
+          <input
+            type="text"
+            className="input input-bordered border-2 w-full "
+            placeholder="Add Your Review"
+            name="review"
+            required
+          ></input>
+          <div>
+            <button
+              type="submit"
+              className="btn btn-primary  bg-gradient-to-r from-primary to-secondary px-8  text-white"
+            >
+              Review
+            </button>
+          </div>
+        </form>
+      </div>
+      <div className="mx-2">
+        {reviews?.map((review) => (
+          <ServiceReviews key={review._id} review={review}></ServiceReviews>
+        ))}
+      </div>
     </Layout>
   );
 };
