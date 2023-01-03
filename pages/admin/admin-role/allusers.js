@@ -2,6 +2,7 @@ import { async } from "@firebase/util";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import AdminLayout from "../../../components/AdminLayout";
 import Layout from "../../../components/Layout";
 import { AuthContext } from "../../../components/UserContext/UserContext";
 
@@ -32,7 +33,7 @@ const Allusers = () => {
     }
   };
   return (
-    <Layout>
+    <AdminLayout>
       <div className="my-20">
         <h1 className="text-xl text-center text-accent font-bold my-4">
           All Users Of This Website
@@ -74,7 +75,7 @@ const Allusers = () => {
           <p className="text-xl text-red-600 text-center">No Buyer Found!!</p>
         )}
       </div>
-    </Layout>
+    </AdminLayout>
   );
 };
 

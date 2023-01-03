@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import Layout from "../../../components/Layout";
+import AdminLayout from "../../../components/AdminLayout";
 import Spinner from "../../../components/Spinner";
 import { AuthContext } from "../../../components/UserContext/UserContext";
 
@@ -54,7 +54,7 @@ const AddProduct = () => {
   };
 
   return (
-    <Layout>
+    <AdminLayout>
       <div className="my-20">
         {spinner && <Spinner></Spinner>}
         <div className="w-11/12 md:w-4/5 lg:w-3/5 mx-auto mt-16 bg-base-200 rounded-xl p-6">
@@ -143,7 +143,7 @@ const AddProduct = () => {
           </form>
         </div>
       </div>
-    </Layout>
+    </AdminLayout>
   );
 };
 
