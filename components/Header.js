@@ -33,7 +33,7 @@ const Header = () => {
       )}
       {user?.uid && (
         <li>
-          <Link className="font-bold text-xl" href="/">
+          <Link className="font-bold text-xl" href="/orders">
             <FaCartArrowDown></FaCartArrowDown>
           </Link>
         </li>
