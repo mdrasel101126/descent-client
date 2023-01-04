@@ -1,9 +1,24 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import React, { useContext, useEffect, useState } from "react";
 import Spinner from "./Spinner";
+import { AuthContext } from "./UserContext/UserContext";
 
-const CheckOutForm = ({ booking }) => {
-  const [price, setPrice] = useState(booking?.price);
+const CheckOutForm = () => {
+  const router = useRouter();
+  const id = router.query.id;
+  const [booking, setBooking] = useState(null);
+  const { user } = useContext(AuthContext);
+  useEffect(() => {
+    if (id) {
+      fetch(`http://localhost:5000/bookings/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setBooking(data);
+        });
+    }
+  }, [id]);
+
   const [cardError, setCardError] = useState("");
   const [clientSecret, setClientSecret] = useState("");
   const [success, setSuccess] = useState("");
@@ -17,7 +32,8 @@ const CheckOutForm = ({ booking }) => {
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
     setSpinner(true);
-    if (price) {
+    if (booking?.price) {
+      const price = booking.price;
       fetch("http://localhost:5000/create-payment-intent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -25,7 +41,6 @@ const CheckOutForm = ({ booking }) => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           if (data.clientSecret) {
             setSpinner(false);
             setClientSecret(data.clientSecret);
@@ -37,7 +52,7 @@ const CheckOutForm = ({ booking }) => {
           console.log(er);
         });
     }
-  }, [price]);
+  }, [booking?.price]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -66,8 +81,8 @@ const CheckOutForm = ({ booking }) => {
         payment_method: {
           card: card,
           billing_details: {
-            name: userName,
-            email: userEmail,
+            name: user?.displayName,
+            email: user?.email,
           },
         },
       });
@@ -77,12 +92,12 @@ const CheckOutForm = ({ booking }) => {
     }
     if (paymentIntent.status === "succeeded") {
       const payment = {
-        bookingId: _id,
-        productId,
+        bookingId: booking?._id,
+        productId: booking?.productId,
         transactionId: paymentIntent.id,
-        buyerName: userName,
-        buyerEmail: userEmail,
-        sellerEmail,
+        buyerName: booking?.userName,
+        buyerEmail: booking?.userEmail,
+        quantity: booking?.quantity - 1,
       };
       fetch("http://localhost:5000/payments", {
         method: "POST",
@@ -104,44 +119,51 @@ const CheckOutForm = ({ booking }) => {
     setProcessing(false);
   };
   return (
-    <>
-      {spinner && <Spinner></Spinner>}
-      {processing && <Spinner></Spinner>}
-      <form onSubmit={handleSubmit}>
-        <CardElement
-          options={{
-            style: {
-              base: {
-                fontSize: "16px",
-                color: "#424770",
-                "::placeholder": {
-                  color: "#aab7c4",
+    <div>
+      <h1 className="text-xl font-semibold mb-10">
+        Please Pay <strong>${booking?.price}</strong> For{" "}
+        <strong>{booking?.productName}</strong>{" "}
+      </h1>
+
+      <>
+        {spinner && <Spinner></Spinner>}
+        {processing && <Spinner></Spinner>}
+        <form onSubmit={handleSubmit}>
+          <CardElement
+            options={{
+              style: {
+                base: {
+                  fontSize: "16px",
+                  color: "#424770",
+                  "::placeholder": {
+                    color: "#aab7c4",
+                  },
+                },
+                invalid: {
+                  color: "#9e2146",
                 },
               },
-              invalid: {
-                color: "#9e2146",
-              },
-            },
-          }}
-        />
-        <button
-          className="btn bg-gradient-to-r from-primary to-secondary btn-sm mt-5"
-          type="submit"
-          disabled={!stripe || !clientSecret || completed}
-        >
-          Pay
-        </button>
-      </form>
-      <p className="text-red-500">{cardError}</p>
-      {success && (
-        <div>
-          <p className="text-green-500">{success}</p>
-          <p>
-            Your TransactionId : <strong>{transactionId}</strong>
-          </p>
-        </div>
-      )}
-    </>
+            }}
+          />
+          <button
+            className="btn bg-gradient-to-r from-primary to-secondary btn-sm mt-5 text-white"
+            type="submit"
+            disabled={!stripe || !clientSecret || completed}
+          >
+            Pay
+          </button>
+        </form>
+        <p className="text-red-500">{cardError}</p>
+        {success && (
+          <div>
+            <p className="text-green-500">{success}</p>
+            <p>
+              Your TransactionId : <strong>{transactionId}</strong>
+            </p>
+          </div>
+        )}
+      </>
+    </div>
   );
 };
 
