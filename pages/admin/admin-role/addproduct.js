@@ -27,7 +27,7 @@ const AddProduct = () => {
       .then((formdata) => {
         console.log(formdata);
         data.image = formdata.data.display_url;
-        fetch("http://localhost:5000/products", {
+        fetch("https://descent-server.vercel.app/products", {
           method: "POST",
           headers: {
             "content-type": "application/json",

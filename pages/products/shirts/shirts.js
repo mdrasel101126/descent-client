@@ -9,7 +9,7 @@ const Shirts = () => {
 
   useEffect(() => {
     setSpinner1(true);
-    fetch("http://localhost:5000/products/shirts")
+    fetch("https://descent-server.vercel.app/products/shirts")
       .then((res) => res.json())
       .then((data) => {
         //console.log(data);

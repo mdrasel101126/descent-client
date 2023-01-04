@@ -11,7 +11,7 @@ const CheckOutForm = () => {
   const { user } = useContext(AuthContext);
   useEffect(() => {
     if (id) {
-      fetch(`http://localhost:5000/bookings/${id}`)
+      fetch(`https://descent-server.vercel.app/bookings/${id}`)
         .then((res) => res.json())
         .then((data) => {
           setBooking(data);
@@ -34,7 +34,7 @@ const CheckOutForm = () => {
     setSpinner(true);
     if (booking?.price) {
       const price = booking.price;
-      fetch("http://localhost:5000/create-payment-intent", {
+      fetch("https://descent-server.vercel.app/create-payment-intent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ price }),
@@ -99,7 +99,7 @@ const CheckOutForm = () => {
         buyerEmail: booking?.userEmail,
         quantity: booking?.quantity - 1,
       };
-      fetch("http://localhost:5000/payments", {
+      fetch("https://descent-server.vercel.app/payments", {
         method: "POST",
         headers: {
           "content-type": "application/json",

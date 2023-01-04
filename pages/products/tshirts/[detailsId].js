@@ -18,7 +18,7 @@ const detailsId = () => {
   const [toogleReview, setToogleReview] = useState(false);
   useEffect(() => {
     if (id) {
-      fetch(`http://localhost:5000/products/details/${id}`)
+      fetch(`https://descent-server.vercel.app/products/details/${id}`)
         .then((res) => res.json())
         .then((data) => {
           //console.log(data);
@@ -58,7 +58,7 @@ const detailsId = () => {
       quantity: selectedProduct.quantity,
     };
     //console.log(bookingProduct);
-    fetch("http://localhost:5000/bookings", {
+    fetch("https://descent-server.vercel.app/bookings", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -101,7 +101,7 @@ const detailsId = () => {
       comment_date: new Date(),
     };
     //console.log(serviceReview);
-    fetch("http://localhost:5000/reviews", {
+    fetch("https://descent-server.vercel.app/reviews", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -120,7 +120,7 @@ const detailsId = () => {
       });
   };
   useEffect(() => {
-    fetch(`http://localhost:5000/reviews?id=${product?._id}`)
+    fetch(`https://descent-server.vercel.app/reviews?id=${product?._id}`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);

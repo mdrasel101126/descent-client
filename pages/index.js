@@ -21,7 +21,7 @@ export default function Home() {
   const [spinner3, setSpinner3] = useState(false);
   useEffect(() => {
     setSpinner1(true);
-    fetch("http://localhost:5000/products/shirts?len=3")
+    fetch("https://descent-server.vercel.app/products/shirts?len=3")
       .then((res) => res.json())
       .then((data) => {
         //console.log(data);
@@ -32,7 +32,7 @@ export default function Home() {
 
   useEffect(() => {
     setSpinner2(true);
-    fetch("http://localhost:5000/products/tshirts?len=3")
+    fetch("https://descent-server.vercel.app/products/tshirts?len=3")
       .then((res) => res.json())
       .then((data) => {
         //console.log(data);
@@ -42,7 +42,7 @@ export default function Home() {
   }, []);
   useEffect(() => {
     setSpinner3(true);
-    fetch("http://localhost:5000/products/pants?len=3")
+    fetch("https://descent-server.vercel.app/products/pants?len=3")
       .then((res) => res.json())
       .then((data) => {
         //console.log(data);

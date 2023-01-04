@@ -7,7 +7,7 @@ const UserOrders = () => {
   const { user } = useContext(AuthContext);
   const [myOrders, setMyOrders] = useState([]);
   useEffect(() => {
-    fetch(`http://localhost:5000/bookings?email=${user?.email}`)
+    fetch(`https://descent-server.vercel.app/bookings?email=${user?.email}`)
       .then((res) => res.json())
       .then((data) => {
         setMyOrders(data);
